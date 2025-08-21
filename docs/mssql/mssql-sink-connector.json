@@ -1,0 +1,24 @@
+{
+  "name": "mssql-sink-connector",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "tasks.max": "1",
+    "connection.url": "jdbc:sqlserver://YOUR_DEST_MSSQL_HOST:1433;databaseName=YOUR_DEST_DATABASE_NAME;encrypt=false",
+    "connection.user": "YOUR_DEST_MSSQL_USER",
+    "connection.password": "YOUR_DEST_MSSQL_PASSWORD",
+    "topics": "mssql-source-server.YOUR_SOURCE_DATABASE_NAME.dbo.YOUR_TABLE_NAME",
+    "auto.create": "false",
+    "auto.evolve": "false",
+    "insert.mode": "upsert",
+    "pk.mode": "record_value",
+    "pk.fields": "id",
+    "table.name.format": "YOUR_DEST_TABLE_NAME",
+    "transforms": "unwrap",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.unwrap.drop.tombstones": "true",
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false"
+  }
+}

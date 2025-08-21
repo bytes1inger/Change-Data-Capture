@@ -1,0 +1,26 @@
+{
+  "name": "mssql-source-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.sqlserver.SqlServerConnector",
+    "tasks.max": "1",
+    "database.hostname": "YOUR_SOURCE_MSSQL_HOST",
+    "database.port": "1433",
+    "database.user": "YOUR_SOURCE_MSSQL_USER",
+    "database.password": "YOUR_SOURCE_MSSQL_PASSWORD",
+    "database.dbname": "YOUR_SOURCE_DATABASE_NAME",
+    "database.server.name": "mssql-source-server",
+    "table.include.list": "dbo.YOUR_TABLE_NAME",
+    "database.history.kafka.bootstrap.servers": "kafka:29092",
+    "database.history.kafka.topic": "mssql-source-history",
+    "include.schema.changes": "true",
+    
+    "transforms": "unwrap",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.unwrap.drop.tombstones": "false",
+    
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false"
+  }
+}
