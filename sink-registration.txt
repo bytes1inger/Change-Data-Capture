@@ -1,0 +1,8 @@
+curl -s -X POST -H "Content-Type: application/json" \
+  --data @connectors/sink-src1.json http://localhost:8084/connectors
+
+curl -s -X POST -H "Content-Type: application/json" \
+  --data @connectors/sink-src2.json http://localhost:8084/connectors
+
+curl -s -X POST -H "Content-Type: application/json" \
+  --data @connectors/sink-src3.json http://localhost:8084/connectors

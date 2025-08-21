@@ -1,0 +1,28 @@
+{
+  "name": "jdbc-sink-orders",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "connection.url": "jdbc:postgresql://postgres-dest:5432/unifieddb",
+    "connection.user": "postgres",
+    "connection.password": "postgres",
+    
+    "topics": "src1.public.orders",
+    "table.name.format": "orders",
+    
+    "auto.create": "false",
+    "auto.evolve": "true",
+    "insert.mode": "insert",
+    
+    "transforms": "unwrap,addSource,addUserSource",
+    "transforms.unwrap.type": "org.apache.kafka.connect.transforms.ExtractField$Value",
+    "transforms.unwrap.field": "after",
+    
+    "transforms.addSource.type": "org.apache.kafka.connect.transforms.InsertField$Value",
+    "transforms.addSource.static.field": "source",
+    "transforms.addSource.static.value": "SRC1",
+    
+    "transforms.addUserSource.type": "org.apache.kafka.connect.transforms.InsertField$Value",
+    "transforms.addUserSource.static.field": "user_source",
+    "transforms.addUserSource.static.value": "SRC1"
+  }
+}

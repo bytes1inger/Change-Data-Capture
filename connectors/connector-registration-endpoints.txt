@@ -1,0 +1,11 @@
+curl -s -X POST -H "Content-Type: application/json" \
+  --data @connectors/source-src1.json http://localhost:8083/connectors
+
+curl -s -X POST -H "Content-Type: application/json" \
+  --data @connectors/source-src2.json http://localhost:8083/connectors
+
+curl -s -X POST -H "Content-Type: application/json" \
+  --data @connectors/source-src3.json http://localhost:8083/connectors
+
+
+

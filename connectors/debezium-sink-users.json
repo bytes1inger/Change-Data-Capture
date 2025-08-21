@@ -1,0 +1,24 @@
+{
+  "name": "jdbc-sink-users",
+  "config": {
+    "connector.class": "io.debezium.connector.jdbc.JdbcSinkConnector",
+    "connection.url": "jdbc:postgresql://postgres-dest:5432/unifieddb",
+    "connection.username": "postgres",
+    "connection.password": "postgres",
+    
+    "topics": "src1.public.users",
+    "table.name.format": "users",
+    
+    "primary.key.fields": "id,source",
+    "primary.key.mode": "record_value",
+    "insert.mode": "upsert",
+    
+    "transforms": "unwrap,addSource",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.unwrap.drop.tombstones": "true",
+    
+    "transforms.addSource.type": "org.apache.kafka.connect.transforms.InsertField$Value",
+    "transforms.addSource.static.field": "source",
+    "transforms.addSource.static.value": "SRC1"
+  }
+}

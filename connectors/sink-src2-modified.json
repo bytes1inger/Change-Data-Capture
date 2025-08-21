@@ -1,0 +1,33 @@
+{
+  "name": "jdbc-sink-src2",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "connection.url": "jdbc:postgresql://postgres-dest:5432/unifieddb",
+    "connection.user": "postgres",
+    "connection.password": "postgres",
+
+    "topics.regex": "src2\\.public\\.(users|orders)",
+
+    "auto.create": "false",
+    "auto.evolve": "true",
+
+    "insert.mode": "upsert",
+    "delete.enabled": "false",
+    "pk.mode": "record_value",
+    "pk.fields": "id",
+
+    "transforms": "routeUsers,routeOrders,addSource",
+
+    "transforms.routeUsers.type": "org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.routeUsers.regex": "src2\\.public\\.users",
+    "transforms.routeUsers.replacement": "users",
+
+    "transforms.routeOrders.type": "org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.routeOrders.regex": "src2\\.public\\.orders",
+    "transforms.routeOrders.replacement": "orders",
+
+    "transforms.addSource.type": "org.apache.kafka.connect.transforms.InsertField$Value",
+    "transforms.addSource.static.field": "source",
+    "transforms.addSource.static.value": "SRC2"
+  }
+}

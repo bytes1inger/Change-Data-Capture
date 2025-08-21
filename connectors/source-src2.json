@@ -1,0 +1,20 @@
+{
+    "name": "src2-postgres",
+    "config": {
+      "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+      "database.hostname": "postgres-src2",
+      "database.port": "5432",
+      "database.user": "postgres",
+      "database.password": "postgres",
+      "database.dbname": "appdb",
+      "topic.prefix": "src2",
+      "slot.name": "debezium_src2",
+      "plugin.name": "pgoutput",
+      "publication.autocreate.mode": "filtered",
+      "table.include.list": "public.users,public.orders",
+      "snapshot.mode": "initial",
+      "tombstones.on.delete": "false",
+      "heartbeat.interval.ms": "5000"
+    }
+  }
+  
