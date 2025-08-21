@@ -56,16 +56,24 @@ curl -s -X POST -H "Content-Type: application/json" \
 Important: Register the users sink connector first, as orders have a foreign key dependency on users:
 
 ```bash
-# Register users sink connector
+# Register users sink connectors for all sources
 curl -s -X POST -H "Content-Type: application/json" \
   --data @connectors/debezium-sink-users.json http://localhost:8083/connectors
+curl -s -X POST -H "Content-Type: application/json" \
+  --data @connectors/debezium-sink-users-src2.json http://localhost:8083/connectors
+curl -s -X POST -H "Content-Type: application/json" \
+  --data @connectors/debezium-sink-users-src3.json http://localhost:8083/connectors
 
 # Wait a few seconds for users to be synchronized
 sleep 10
 
-# Register orders sink connector
+# Register orders sink connectors for all sources
 curl -s -X POST -H "Content-Type: application/json" \
   --data @connectors/debezium-sink.json http://localhost:8083/connectors
+curl -s -X POST -H "Content-Type: application/json" \
+  --data @connectors/debezium-sink-orders-src2.json http://localhost:8083/connectors
+curl -s -X POST -H "Content-Type: application/json" \
+  --data @connectors/debezium-sink-orders-src3.json http://localhost:8083/connectors
 ```
 
 ### 4. Verify the Setup
@@ -73,11 +81,20 @@ curl -s -X POST -H "Content-Type: application/json" \
 Check if the connectors are running:
 
 ```bash
-# Check source connectors
+# List all connectors
 curl -s http://localhost:8083/connectors
 
-# Check connector status
+# Check status of individual connectors
 curl -s http://localhost:8083/connectors/src1-postgres/status
+curl -s http://localhost:8083/connectors/src2-postgres/status
+curl -s http://localhost:8083/connectors/src3-postgres/status
+
+# Check status of all connectors at once
+for connector in $(curl -s http://localhost:8083/connectors | tr -d '[]"' | tr ',' ' '); do 
+  echo -e "\n$connector status:"; 
+  curl -s http://localhost:8083/connectors/$connector/status; 
+  echo; 
+done
 ```
 
 ### 5. Generate Test Data
@@ -100,10 +117,14 @@ Check if data is flowing to the destination database:
 
 ```bash
 # Check users in the destination database
-sudo docker exec -it cdc-postgres-dest-1 psql -U postgres -d unifieddb -c "SELECT * FROM users;"
+sudo docker exec -it cdc-postgres-dest-1 psql -U postgres -d unifieddb -c "SELECT * FROM users ORDER BY source, id;"
 
 # Check orders in the destination database
-sudo docker exec -it cdc-postgres-dest-1 psql -U postgres -d unifieddb -c "SELECT * FROM orders;"
+sudo docker exec -it cdc-postgres-dest-1 psql -U postgres -d unifieddb -c "SELECT * FROM orders ORDER BY source, id;"
+
+# Count records by source
+sudo docker exec -it cdc-postgres-dest-1 psql -U postgres -d unifieddb -c "SELECT source, COUNT(*) FROM users GROUP BY source;"
+sudo docker exec -it cdc-postgres-dest-1 psql -U postgres -d unifieddb -c "SELECT source, COUNT(*) FROM orders GROUP BY source;"
 ```
 
 ## Troubleshooting
