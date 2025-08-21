@@ -16,6 +16,7 @@ The architecture consists of:
 - `connectors/`: Contains connector configurations
   - `source-*.json`: Source connector configurations for capturing changes from PostgreSQL
   - `debezium-sink*.json`: Sink connector configurations for writing changes to the destination database
+  - `trial-config/`: Directory containing experimental and untested connector configurations
 - `generate_orders.sh`: Script to generate test data
 
 ## Setup Instructions

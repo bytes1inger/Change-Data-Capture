@@ -22,19 +22,19 @@ The following configurations have been tested and confirmed working:
 
 ## Untested Configurations
 
-The following configurations have not been fully tested:
+The following configurations have not been fully tested and have been moved to the `connectors/trial-config/` directory:
 
-### Source Connectors
-- None
-
-### Sink Connectors
-- `connectors/sink-src1.json`: Original sink connector configuration
-- `connectors/sink-src1-modified.json`: Modified sink connector configuration
-- `connectors/sink-src1-simple.json`: Simplified sink connector configuration
-- `connectors/sink-src1-fields.json`: Fields-based sink connector configuration
-- `connectors/sink-src2-modified.json`: Modified sink connector for src2
-- `connectors/sink-src3-modified.json`: Modified sink connector for src3
-- `connectors/sink-debezium.json`: Alternative Debezium sink configuration
+### Trial Configurations
+- `sink-src1.json`: Original sink connector configuration
+- `sink-src1-modified.json`: Modified sink connector configuration
+- `sink-src1-simple.json`: Simplified sink connector configuration
+- `sink-src1-fields.json`: Fields-based sink connector configuration
+- `sink-src2.json`: Original sink connector for src2
+- `sink-src2-modified.json`: Modified sink connector for src2
+- `sink-src3.json`: Original sink connector for src3
+- `sink-src3-modified.json`: Modified sink connector for src3
+- `sink-debezium.json`: Alternative Debezium sink configuration
+- `connector-registration-endpoints.txt`: Notes on connector registration endpoints
 
 ## Next Steps
 
